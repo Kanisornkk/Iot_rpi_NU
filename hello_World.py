@@ -1,6 +1,6 @@
-print('hellow world')
+print("hellow world")
 foobar=7
 print(foobar)
 
-print('made a change')
-print('form github')
+print("made a change")
+print("form github")
