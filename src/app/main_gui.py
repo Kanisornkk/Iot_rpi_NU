@@ -7,42 +7,52 @@ througha mqtt communication channel
 
 ___authore___ = "Kanisorn Kaewsrithong"
 
-#libraly
-import tkinter
+#libral
+import tkinter as tk
 
 #make a variable to chang color
-color = 'red' #= assignment
+
+
+class StatusButton:
+    """Display the status using a canvas
+    Attributes:
+        circle: object use to display status
+        canvas (tk.Canvas):canvas the circle is in
+        color (str):color the circle will show
+    """
+    def __init__(self,parent):
+        self.color='red'
+        self.canvas = tk.Canvas(parent, width=120, height=120)
+        self.circle = self.canvas.create_oval(10, 10, 110, 110,
+                                    fill=self.color)
+        self.canvas.pack()
+
+    def toggle_color(self):
+        """ Change the color between red and green"""
+        if self.color == 'red':
+            self.color = 'green'
+        elif self.color == 'green':
+            self.color = 'red'
+        self.canvas.itemconfig(self.circle, fill=self.color)
+
+
 #make apython function to print "hello word"
 #def-define
-def hello_World():
-    #make it go green ->yelllow->red
-    global color
-    print("Hello World")
-    if color == 'green' :
-            color = 'yellow' #green ->yellow
-        #== is comparison
 
-    elif color == 'yellow':
-            color = 'red' #yello ->red
-
-    elif color== 'red' :
-            color = 'green' #red->green
-
-
-
-    canvas.itemconfig(circle, fill= color)
-
-app = tkinter.Tk() #application a class of tkinter.Tk
+app = tk.Tk() #application a class of tkinter.Tk
 app.geometry('400x600') #geometry is method of the tkinter.tk
-canvas = tkinter.Canvas(app, width=120, height=120)
-circle = canvas.create_oval(10, 10,110,110,
-                            fill = color)
-canvas.pack()
-tkinter.Button(app, text="hello world",
-               command=hello_World).pack()
+status_btn=StatusButton(app)
+print(status_btn)
+status_btn2=StatusButton(app)
+print(status_btn2)
+tk.Button(app, text="Toggle Circle 1",
+               command=status_btn.toggle_color).pack()
+
+tk.Button(app, text="Toggle Circle 2",
+               command=status_btn2.toggle_color).pack()
+
+
 #make a button)
 #Button takes 2 arguement,app-where to putbutton
 #text-keyword
-
-app.mainloop() #mainloop is method of tkinter.tk
-#methods are functions of classes
+app.mainloop()  # mainloop is method of tkinter.tk methods are functions of classes
