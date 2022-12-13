@@ -39,4 +39,3 @@ while True:
     client.publish("Naresuan/Tao",
                    "hello world is Tao")
     time.sleep(10)
-
