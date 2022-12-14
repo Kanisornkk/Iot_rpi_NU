@@ -17,25 +17,34 @@ HIVEMQTT_BROKER = "broker.hivemq.com"
 PYBLISH_TOPIC = "Naresuan/Tao"
 SUBSCRIBE_TOPIC = "Naresuan/+"
 
-def on_subscription(*args):
-    print("subscribed: ",args)
+class MQTTConn:
+    def __init__(self):
+        self.client = mqqtt.Client()
+        self.client.on_connect = self.on_conection
+        #self.client.on_subscribe = on_subscription
+        self.client.on_message = self.on_message
+        self.client.connect(HIVEMQTT_BROKER, HIVEMQTT_PORT)
+        self.client.loop_start()
 
-def on_conection(*args):
+    def publish(self, topic, message):
+        self.client.publish(topic, message)
+
+
+
+    def on_subscription(self, *args):
+        print("subscribed: ",args)
+
+    def on_conection(self, *args):
     #call back for when mqtt connects to the broker and prints out an acknowledgement and subscribes
-    print("connected")
-    client.subscribe(SUBSCRIBE_TOPIC)
+        print("connected")
+        self.client.subscribe(SUBSCRIBE_TOPIC)
+    @staticmethod
+    def on_message(client,user_data, msg: mqqtt.MQTTMessage):
+        print("got message", msg.payload)
 
-def on_message(client,user_data, msg: mqqtt.MQTTMessage):
-    print("got message", msg.payload)
-
-
-client = mqqtt.Client()
-client.on_connect = on_conection
-client.on_subscribe = on_subscription
-client.on_message = on_message
-client.connect(HIVEMQTT_BROKER,HIVEMQTT_PORT)
-client.loop_start()
-while True:
-    client.publish("Naresuan/Tao",
-                   "hello world is Tao")
-    time.sleep(10)
+if __name__ == '__main__':
+    client = MQTTConn()
+    while True:
+        client.publish("Naresuan/Tao",
+                   "hello this is Tao")
+        time.sleep(10)
