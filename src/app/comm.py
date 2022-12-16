@@ -14,11 +14,12 @@ import paho.mqtt.client as mqqtt
 
 HIVEMQTT_PORT = 1883 #Constant
 HIVEMQTT_BROKER = "broker.hivemq.com"
-PYBLISH_TOPIC = "Naresuan/Tao"
+PUBLISH_TOPIC = "Naresuan/Tao"
 SUBSCRIBE_TOPIC = "Naresuan/+"
-
+import main_gui
 class MQTTConn:
-    def __init__(self):
+    def __init__(self, root: main_gui.SensorUI):
+        self.root =root
         self.client = mqqtt.Client()
         self.client.on_connect = self.on_conection
         #self.client.on_subscribe = on_subscription
@@ -26,8 +27,8 @@ class MQTTConn:
         self.client.connect(HIVEMQTT_BROKER, HIVEMQTT_PORT)
         self.client.loop_start()
 
-    def publish(self, topic, message):
-        self.client.publish(topic, message)
+    def publish(self, message):
+        self.client.publish(PUBLISH_TOPIC,message)
 
 
 
@@ -38,9 +39,16 @@ class MQTTConn:
     #call back for when mqtt connects to the broker and prints out an acknowledgement and subscribes
         print("connected")
         self.client.subscribe(SUBSCRIBE_TOPIC)
-    @staticmethod
-    def on_message(client,user_data, msg: mqqtt.MQTTMessage):
+
+    def on_message(self,client,user_data, msg: mqqtt.MQTTMessage):
         print("got message", msg.payload)
+        print("from topic", msg.topic)
+        name = msg.topic.split('/')[-1]
+        print("message from", name)
+        self.root.toggle_status(name)
+
+
+
 
 if __name__ == '__main__':
     client = MQTTConn()
