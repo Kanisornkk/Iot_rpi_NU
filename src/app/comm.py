@@ -11,13 +11,20 @@ import time
 
 #installed library
 import paho.mqtt.client as mqqtt
-
+import main_gui # for type hinting
 HIVEMQTT_PORT = 1883 #Constant
 HIVEMQTT_BROKER = "broker.hivemq.com"
 PUBLISH_TOPIC = "Naresuan/Tao"
 SUBSCRIBE_TOPIC = "Naresuan/+"
-import main_gui
+
 class MQTTConn:
+    """
+    Use the paho library to connect to the HIVE MQ mqtt broker
+
+    Attribute:
+        root (main_gui.SensorUI): root user interface app
+        client (mqtt.Client): paho client for mqtt commucation
+    """
     def __init__(self, root: main_gui.SensorUI):
         self.root =root
         self.client = mqqtt.Client()
@@ -28,19 +35,33 @@ class MQTTConn:
         self.client.loop_start()
 
     def publish(self, message):
+        """
+        Send a message to the HIVE MQ broker using the PUBLISH_TOPIC
+
+        Args:
+            message(str): message to send
+
+        """
         self.client.publish(PUBLISH_TOPIC,message)
 
 
-
-    def on_subscription(self, *args):
-        print("subscribed: ",args)
-
     def on_conection(self, *args):
-    #call back for when mqtt connects to the broker and prints out an acknowledgement and subscribes
+        """
+        call back for when mqtt connects to the broker and prints out an acknowledgement and subscribes
+        """
         print("connected")
         self.client.subscribe(SUBSCRIBE_TOPIC)
 
     def on_message(self,client,user_data, msg: mqqtt.MQTTMessage):
+        """
+        Callback when receiving message
+
+        Arg:
+            client:
+            user_data:
+            msg(mqqtt.MQTTMessage): message received
+
+        """
         print("got message", msg.payload)
         print("from topic", msg.topic)
         name = msg.topic.split('/')[-1]
@@ -56,8 +77,7 @@ class MQTTConn:
 
 
 if __name__ == '__main__':
-    client = MQTTConn()
+    test_client = MQTTConn(None)
     while True:
-        client.publish("Naresuan/Tao",
-                   "hello this is Tao")
+        test_client.publish("hello this is Tao")
         time.sleep(10)
