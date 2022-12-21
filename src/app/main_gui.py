@@ -16,6 +16,17 @@ import comm
 NAMES = ["Kyle", "Tao", "Sudarat", "Chatpon"]
 
 class SensorUI(tk.Tk):
+    """
+    A graphical user interface(tk.Tk) a monitor a group sensor
+
+    Atteibutes:
+        comm (comm.MQTTConn): communications through a mqtt broker
+        status_button (list[StatusButton]): list of StatusButtons to
+            display if the sensors are on or off
+        running (bool): state of the sensor of the owner
+        button (tk.Button): button to toggle the state of the sensor
+
+    """
     def __init__(self):
 
         tk.Tk.__init__(self) #initialize parent class
@@ -35,13 +46,16 @@ class SensorUI(tk.Tk):
         self.button = tk.Button(self, text="Turn On",
               command=self.button_click)
         self.button.pack(side=tk.TOP)
-
-
     # make a button)
     # Button takes 2 arguement,app-where to putbutton
     # text-keyword
 
     def button_click(self):
+        """
+        Toggle the state of the sensor True->False or False->True,
+        update the text of the run button, update the local StatusButton,
+        and send the proper matt message
+        """
         if self.running: #if true turn off sensor
             self.running =False
             msg = "Off"
@@ -56,9 +70,15 @@ class SensorUI(tk.Tk):
         self.comm.publish(msg)
 
     def chang_status(self, name, _running):
+        """
+        Change the status of one of the status_button
+
+        Args:
+            nane (str): name of the button to change
+            _running (bool): if the status is on (True) or off (False)
+        """
         index = NAMES.index(name)
         self.status_buttons[index].toggle_color(_running)
-
 
 
 
