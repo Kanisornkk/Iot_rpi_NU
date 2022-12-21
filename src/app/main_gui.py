@@ -30,10 +30,11 @@ class SensorUI(tk.Tk):
             status_btn = StatusButton(status_frame, NAMES[i])
             self.status_buttons.append(status_btn)
 
-
+        self.running = False
         status_frame.pack(side=tk.TOP)
-        tk.Button(self, text="Change status",
-              command=self.button_click).pack(side=tk.TOP)
+        self.button = tk.Button(self, text="Turn On",
+              command=self.button_click)
+        self.button.pack(side=tk.TOP)
 
 
     # make a button)
@@ -41,12 +42,22 @@ class SensorUI(tk.Tk):
     # text-keyword
 
     def button_click(self):
-        self.toggle_status("Tao")
-        self.comm.publish("Hello this is Tao")
+        if self.running: #if true turn off sensor
+            self.running =False
+            msg = "Off"
+            self.button.config(text="Turn On")
+        else:
 
-    def toggle_status(self, name):
+            self.running = True
+            msg= "On"
+            self.button.config(text="Turn Off")
+
+        self.chang_status("Tao", self.running)
+        self.comm.publish(msg)
+
+    def chang_status(self, name, _running):
         index = NAMES.index(name)
-        self.status_buttons[index].toggle_color()
+        self.status_buttons[index].toggle_color(_running)
 
 
 
@@ -71,11 +82,11 @@ class StatusButton(tk.Frame):
         tk.Label(self, text=name, font=42).pack(side=tk.TOP)
         self.pack(side=tk.LEFT)
 
-    def toggle_color(self):
+    def toggle_color(self, state):
         """ Change the color between red and green"""
-        if self.color == 'red':
+        if state:
             self.color = 'green'
-        elif self.color == 'green':
+        else:
             self.color = 'red'
         self.canvas.itemconfig(self.circle, fill=self.color)
 

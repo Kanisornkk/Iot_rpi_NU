@@ -45,7 +45,12 @@ class MQTTConn:
         print("from topic", msg.topic)
         name = msg.topic.split('/')[-1]
         print("message from", name)
-        self.root.toggle_status(name)
+        if msg.payload == b"On":
+            sensor_state = True
+        else:
+            sensor_state = False
+        self.root.chang_status(name,
+                               sensor_state)
 
 
 
