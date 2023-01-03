@@ -110,10 +110,6 @@ class StatusButton(tk.Frame):
             self.color = 'red'
         self.canvas.itemconfig(self.circle, fill=self.color)
 
-
-#make apython function to print "hello word"
-#def-define
-
 if __name__ == "__main__":
 
     app = SensorUI() #application a class of tkinter.Tk
