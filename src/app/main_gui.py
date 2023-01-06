@@ -7,7 +7,7 @@ througha mqtt communication channel
 
 ___authore___ = "Kanisorn Kaewsrithong"
 
-#libral
+#library
 import tkinter as tk
 
 #local files
