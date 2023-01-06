@@ -77,8 +77,9 @@ class SensorUI(tk.Tk):
             nane (str): name of the button to change
             _running (bool): if the status is on (True) or off (False)
         """
-        index = NAMES.index(name)
-        self.status_buttons[index].toggle_color(_running)
+        if name in NAMES: #if name is not applicable, return
+            index = NAMES.index(name)
+            self.status_buttons[index].toggle_color(_running)
 
 
 
