@@ -9,8 +9,13 @@ ___authore___ = "Kanisorn Kaewsrithong"
 
 import tkinter as tk #libraly
 
+import random
+
+COM_LIST = ['Rock', 'Scissors', 'Paper']
+
 class RockPaperScissors:
     """ make class to create GUI """
+
     def __init__(self, master):
         self.app = master
         self.app.title("Rock Paper Scissors IoT game") # Named to GUI
@@ -30,21 +35,57 @@ class RockPaperScissors:
 
     # Create text for showing results
         # when we open GUI, it will has no text for result.
-        self.result_text = tk.Label(self.app, text="")
+        self.person_text = tk.Label(self.app, text="")
+        self.person_text.pack()
+
+        self.com_text = tk.Label(self.app, text="")
+        self.com_text.pack()
+
+        self.result_text = tk.Label(self.app, text="", fg= "red")
         self.result_text.pack()
+
+       
+
 
     def rock(self):
         """ if we click 'pick rock' button, it will show text as 'You picked Rock' """
-        self.result_text.config(text="You picked Rock")
+        self.player_choice = 'Rock'
+        self.person_text.config(text="You picked Rock")
+        self.com()
+
+
 
     def scissors(self):
         """ if we click 'pick scissors' button, it will show text as 'You picked Scissors' """
-        self.result_text.config(text="You picked Scissors")
+        self.person_text.config(text="You picked Scissors")
+        self.player_choice = 'Scissors'
+        self.com()
+
+
 
     def paper(self):
         """ if we click 'pick paper' button, it will show text as 'You picked Paper' """
-        self.result_text.config(text="You picked Paper")
+        self.player_choice = 'Paper'
+        self.person_text.config(text="You picked Paper")
+        self.com()
 
+
+    def com(self):
+        self.com_choice = random.choice(COM_LIST)
+        self.com_text.config(text="Computer picked " + self.com_choice)
+        if self.player_choice == self.com_choice:
+            self.result_text.config(text="Draws\n"
+                                         "(-_-)")
+
+        elif self.player_choice == 'Rock' and self.com_choice == 'Scissors'\
+                or self.player_choice == 'Scissors' and self.com_choice == 'Paper'\
+                or self.player_choice == 'Paper' and self.com_choice == 'Rock':
+            self.result_text.config(text="You Win \n"
+                                         "(^_^)")
+
+        else:
+            self.result_text.config(text="You Lose\n"
+                                         "(T_T)")
 
 app = tk.Tk()
 app.geometry('400x400') # size of gui
