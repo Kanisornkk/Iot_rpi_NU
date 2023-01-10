@@ -15,9 +15,9 @@ import app_rps #local file # for type hinting
 
 HIVEMQTT_PORT = 1883  # CONSTANT
 HIVEMQTT_BROKER = "broker.hivemq.com"
-PUBLISH_TOPIC = "Naresuan/Tao"
-PUBLISH_TOPIC_COM = "Naresuan/COMPUTER"
-SUBSCRIBE_TOPIC = "Naresuan/+"
+PUBLISH_TOPIC = "Naresuan_RPS/Tao"
+PUBLISH_TOPIC_COM = "Naresuan_RPS/COMPUTER"
+SUBSCRIBE_TOPIC = "Naresuan_RPS/+"
 NAME = "Tao"
 NAME_COM = "COMPUTER"
 
