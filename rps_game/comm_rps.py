@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Kyle Lopin <kylel@nu.ac.th>
+# copyright (c) 2022 Kanisorn Kaewsrithong <kanisornka65@nu.ac.th>
 
 """
 Communicate with the HIVEMQ broker to receive
