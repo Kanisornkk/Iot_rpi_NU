@@ -16,12 +16,11 @@ import app_rps #local file # for type hinting
 HIVEMQTT_PORT = 1883  # CONSTANT
 HIVEMQTT_BROKER = "broker.hivemq.com"
 PUBLISH_TOPIC = "Naresuan/Tao"
-PUBLISH_TOPIC_COM = "Naresuan/COMPUTER"
 SUBSCRIBE_TOPIC = "Naresuan/+"
 NAME = "Tao"
-NAME_COM = "COMPUTER"
 
-import random
+
+
 
 COM_LISTS = ['Rock', 'Scissors', 'Paper']
 
