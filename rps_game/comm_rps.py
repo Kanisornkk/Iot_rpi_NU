@@ -15,9 +15,9 @@ import app_rps #local file # for type hinting
 
 HIVEMQTT_PORT = 1883  # CONSTANT
 HIVEMQTT_BROKER = "broker.hivemq.com"
-PUBLISH_TOPIC = "Naresuan_RPS/Tao"
-PUBLISH_TOPIC_COM = "Naresuan_RPS/COMPUTER"
-SUBSCRIBE_TOPIC = "Naresuan_RPS/+"
+PUBLISH_TOPIC = "Naresuan/Tao"
+PUBLISH_TOPIC_COM = "Naresuan/COMPUTER"
+SUBSCRIBE_TOPIC = "Naresuan/+"
 NAME = "Tao"
 NAME_COM = "COMPUTER"
 
@@ -48,13 +48,7 @@ class MQTTConn:
         """
         self.client.publish(PUBLISH_TOPIC, message)
 
-    def publish_com(self, message_com):
-        """
-            Send a message to the HIVE MQ broker using the PUBLISH_TOPIC_COM
-            Args:
-                message (str): message to send
-        """
-        self.client.publish(PUBLISH_TOPIC_COM, message_com)
+
 
 
     def on_connection(self, *args):
@@ -71,16 +65,28 @@ class MQTTConn:
             user_data:
             msg (mqtt.MQTTMessage): message received
         """
-        self.msg_com = random.choice(COM_LISTS)
         print("got message: ", msg.payload)
         print("from topic: ", msg.topic)
         name = msg.topic.split('/')[-1]
         print("message from: ", name,'\n')
-        if name == 'COMPUTER':
-            print('----------------------------------------')
-        else:
-            self.publish_com(self.msg_com)
-            self.root.change_status(self.msg_com)
+
+
+        # if we get mesaeges from Computer, msg_com will change value following computer choice
+        if name == 'Computer' and msg.payload == b'Rock':
+            msg_com = 'Rock'
+            self.root.change_status(msg_com)
+            print('----------------------------------------------------------------------')
+
+        elif name == 'Computer' and msg.payload == b'Scissors':
+            msg_com = 'Scissors'
+            self.root.change_status(msg_com)
+            print('----------------------------------------------------------------------')
+
+        elif name == 'Computer' and msg.payload == b'Paper':
+            msg_com = 'Paper'
+            self.root.change_status(msg_com)
+            print('----------------------------------------------------------------------')
+
 
 if __name__ == "__main__":
     test_client = None
