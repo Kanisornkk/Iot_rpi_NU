@@ -4,7 +4,6 @@
 Rock Paper Scissors game to have it sent the players choice to the hive mq broker
 There will be a server running that will send the computers choice back to you.
 Having GUI display the players choice and who won.
-
 """
 
 ___authore___ = "Kanisorn Kaewsrithong"
@@ -87,7 +86,7 @@ class RockPaperScissors:
         self.com_text.config(text="Computer picked "+ msg_com)
 
         if self.player_choice == msg_com:
-            self.result_text.config(text="Draws\n"
+            self.result_text.config(text="Draw\n"
                                          "(-_-)")
 
         elif self.player_choice == 'Rock' and msg_com == 'Scissors' \
