@@ -32,7 +32,7 @@ class TestSensor(unittest.TestCase):
         sensor_class.add_data(now2, 10)
         print(f"time: {sensor_class.time}")
         print(f"temp: {sensor_class.temperature}")
-        self.assertEqual([now2], sensor_class.time)
+        self.assertEqual([now, now2], sensor_class.time)
         self.assertEqual([5, 10], sensor_class.temperature)
 
 
