@@ -30,9 +30,9 @@ class TestDisplay(unittest.TestCase):
         print("getting x y data")
         print(_display.lines[0].get_xydata())
 
-        self.assertEqual(time, _display.lines[0].get_xdata()) # check update_line -> [time] = x_data
-        self.assertEqual(temps, _display.lines[0].get_ydata()) # check update_line -> [temp] = y_data
-
+        # assignment: use asserts to check update_line works correctly
+        self.assertEqual(time, _display.lines[0].get_xdata()) # check  -> [time] = x_data from update_line
+        self.assertEqual(temps, _display.lines[0].get_ydata()) # check -> [temp] = y_data from update_line
 
 
 if __name__ == '__main__':
