@@ -52,14 +52,11 @@ class TestSensorData(unittest.TestCase):
          Use the test_sensor_ui code for an example """
         # mock the display.Display class in the sensor_data module
         sensor_class = self.sensor_class
-        # print('======')
-        # print(sensor_class.add_data)
-        # print(f"temp: {sensor_class.temperature}")
         # add 1 data point and check it is added correctly
         now = datetime(2023, 1, 24, 10, 50, 12)
         sensor_class.add_data(now, 5)
-        # check that the self.display.update_line is called with the
-        # correct arguments
+
+        # check that the self.display.update_line is called with the correct arguments
         sensor_class.display.update_line.assert_called_with([now], [5])
 
 
