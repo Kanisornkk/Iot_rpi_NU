@@ -1,71 +1,45 @@
+
 # copyright (c) 2022 Kanisorn Kaewsrithong <kanisornka65@nu.ac.th>
 
 """
-Unit test the comm file
+Make a graphical user interface with 1 button, that when pressed will publish to
+the HIVE MQTT broker to the topic "Naresuan/{Name}/Final", the message "Hello World"
+
 """
 
 ___authore___ = "Kanisorn Kaewsrithong"
 
-import unittest
-
-class Receive:
-    def __init__(self):
-        self.data = Data()
-
-    def get_data(self, _data):
-        print("get data")
-        self.data.add_data(_data)
-        return 0
-
-
-class Data:
-    def __init__(self):
-        self.data = []
-
-    def add_data(self, data):
-        print('add data')
-        self.data.append(data)
-        return 0
-
-
-class TestReceive(unittest.TestCase):
-    def test_receive_get_data(self):
-        """ Unit Test that the get_data method in the class Receive
-            will properly call """
-        print('\n--------------------------- test_receive_get_data ------------------------------------')
-        receive = Receive()
-        test_data = 1222
-        receive.get_data(test_data)
-        print(receive.data.data)
-        self.assertListEqual(receive.data.data, [test_data])
+import tkinter as tk  # library
+import comm_final
 
 
 
+class Pressing:
+    """ make class to create GUI """
+
+    def __init__(self, master: comm_final):
+        self.comm = comm_final.MQTTConn(self)
+        self.app = master
+
+
+        self.app.title("Communicated with Mqtt")  # Named to GUI
+
+        # Create the buttons for the three options
+        # Rock
+        self.rock_button = tk.Button(self.app, text="press", command=self.Pressing_Button)
+        self.rock_button.pack()
+
+        self.message = "Hello World"
+
+    def Pressing_Button(self):
+
+
+        self.comm.publish(self.message)
 
 
 
-
-class TestData(unittest.TestCase):
-    def test_data(self):
-        """ Unit Test that the add_data method appends the
-            data to the .data attribute """
-        print('\n--------------------------- test_rx_to_data ------------------------------------')
-        data = Data()
-        data_testing_add = 'test data'
-        data.add_data(data_testing_add)
-        print(data.data)
-        self.assertListEqual(data.data, [data_testing_add])
-
-
-class TestReceiveToData(unittest.TestCase):
-    def test_rx_to_data(self):
-        """ Integration test that sending data using the
-            get_data method in the Receive class will
-            correctly append it to the data attribute of
-            the Data class """
-        print('\n--------------------------- test_rx_to_data ------------------------------------')
-        receive = Receive()
-        data = Data()
-        data_testing = 'test 333'
-
-        print()
+if __name__ == "__main__":
+    app = tk.Tk()
+    app.geometry('400x400')  # size of gui
+    Pressing(app)
+    app.mainloop()
