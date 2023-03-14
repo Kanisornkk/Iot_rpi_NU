@@ -1,3 +1,5 @@
+
+___authore___ = "Kanisorn Kaewsrithong"
 # copyright (c) 2022 Kanisorn Kaewsrithong <kanisornka65@nu.ac.th>
 
 """
@@ -6,27 +8,25 @@ sensor data, using the paho mqtt library
 """
 
 __author__ = "Kanisorn Kaewsrithong"
-COM_LIST = ['Rock', 'Scissors', 'Paper']
+
 
 # installed library
 import paho.mqtt.client as mqtt
 
-import app #local file # for type hinting
+import final_gui #local file # for type hinting
 
 HIVEMQTT_PORT = 1883  # CONSTANT
 HIVEMQTT_BROKER = "broker.hivemq.com"
-PUBLISH_TOPIC = "Naresuan_rps/Tao"
-PUBLISH_TOPIC_COM = "Naresuan_rps/COMPUTER"
-SUBSCRIBE_TOPIC = "Naresuan_rps/+"
+PUBLISH_TOPIC = "Naresuan/Kanisorn/final"
+SUBSCRIBE_TOPIC = "Naresuan/Kanisorn/+"
 NAME = "Tao"
-NAME_COM = "COMPUTER"
 
-import random
+PUBLISH_TOPIC_Tx = "Naresuan/Final/Kanisorn/Tx"
+SUBSCRIBE_TOPIC_Tx = "Naresuan/Final/Kanisorn/+"
 
-COM_LISTS = ['Rock', 'Scissors', 'Paper']
 
 class MQTTConn:
-    def __init__(self, root: app):
+    def __init__(self, root: final_gui):
 
         self.root = root
         self.client = mqtt.Client()
@@ -36,8 +36,7 @@ class MQTTConn:
         self.client.connect(HIVEMQTT_BROKER, HIVEMQTT_PORT)
         self.client.loop_start()
 
-        self.RPS = app.RockPaperScissors
-
+        self.Pressing = final_gui.Pressing
 
 
     def publish(self, message):
@@ -48,20 +47,12 @@ class MQTTConn:
         """
         self.client.publish(PUBLISH_TOPIC, message)
 
-    def publish_com(self, message_com):
-        """
-            Send a message to the HIVE MQ broker using the PUBLISH_TOPIC_COM
-            Args:
-                message (str): message to send
-        """
-        self.client.publish(PUBLISH_TOPIC_COM, message_com)
-
-
     def on_connection(self, *args):
         """ Call back for when mqtt connects to the broker
          and prints out an acknowledgement and subscribes """
         print("Connected")
         self.client.subscribe(SUBSCRIBE_TOPIC)
+        self.client.subscribe(SUBSCRIBE_TOPIC_Tx)
 
     def on_message(self, client, user_data, msg: mqtt.MQTTMessage):
         """
@@ -71,16 +62,17 @@ class MQTTConn:
             user_data:
             msg (mqtt.MQTTMessage): message received
         """
-        self.msg_com = random.choice(COM_LISTS)
+
+        if msg.topic == "Naresuan/Final/Kanisorn/Rx":
+            msg_tx = int(msg.payload)**2
+            self.client.publish(PUBLISH_TOPIC_Tx, msg_tx)
+
         print("got message: ", msg.payload)
         print("from topic: ", msg.topic)
-        name = msg.topic.split('/')[-1]
-        print("message from: ", name,'\n')
-        if name == 'COMPUTER':
-            print('----------------------------------------')
-        else:
-            self.publish_com(self.msg_com)
-            self.root.change_status(self.msg_com)
+        name = msg.topic.split('/')[-2]
+        print("message from: ", name, '\n')
+
+
 
 if __name__ == "__main__":
     test_client = None
