@@ -9,32 +9,29 @@ the HIVE MQTT broker to the topic "Naresuan/{Name}/Final", the message "Hello Wo
 ___authore___ = "Kanisorn Kaewsrithong"
 
 import tkinter as tk  # library
-import comm_final
 
+import comm_final  # local file
 
 
 class Pressing:
+
     """ make class to create GUI """
 
     def __init__(self, master: comm_final):
         self.comm = comm_final.MQTTConn(self)
         self.app = master
 
-
         self.app.title("Communicated with Mqtt")  # Named to GUI
 
-        # Create the buttons for the three options
-        # Rock
-        self.rock_button = tk.Button(self.app, text="press", command=self.Pressing_Button)
-        self.rock_button.pack()
+        self.PUBLISH_BUTTON = tk.Button(self.app, text="press",
+                                        command=self.Pressing_Button)
+        self.PUBLISH_BUTTON.pack()  # Create the button
 
         self.message = "Hello World"
 
     def Pressing_Button(self):
-
-
+        """ if we pressed the button, it will publish our message to mqtt"""
         self.comm.publish(self.message)
-
 
 
 if __name__ == "__main__":

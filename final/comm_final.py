@@ -13,14 +13,16 @@ __author__ = "Kanisorn Kaewsrithong"
 # installed library
 import paho.mqtt.client as mqtt
 
-import final_gui #local file # for type hinting
+import final_gui #local file
 
+# This is config of Naresuan/Kanisorn/final topic
 HIVEMQTT_PORT = 1883  # CONSTANT
 HIVEMQTT_BROKER = "broker.hivemq.com"
 PUBLISH_TOPIC = "Naresuan/Kanisorn/final"
 SUBSCRIBE_TOPIC = "Naresuan/Kanisorn/+"
 NAME = "Tao"
 
+# This is config of Naresuan/Final/Kanisorn/Tx topic
 PUBLISH_TOPIC_Tx = "Naresuan/Final/Kanisorn/Tx"
 SUBSCRIBE_TOPIC_Tx = "Naresuan/Final/Kanisorn/+"
 
@@ -66,6 +68,7 @@ class MQTTConn:
         if msg.topic == "Naresuan/Final/Kanisorn/Rx":
             msg_tx = int(msg.payload)**2
             self.client.publish(PUBLISH_TOPIC_Tx, msg_tx)
+
 
         print("got message: ", msg.payload)
         print("from topic: ", msg.topic)
