@@ -1,5 +1,3 @@
-
-___authore___ = "Kanisorn Kaewsrithong"
 # copyright (c) 2022 Kanisorn Kaewsrithong <kanisornka65@nu.ac.th>
 
 """
